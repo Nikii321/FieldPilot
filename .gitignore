@@ -1,0 +1,9 @@
+/.gradle/
+/build/
+/.idea/
+*.iml
+.DS_Store
+/.env
+/data/
+/training-data/*.csv
+*.log

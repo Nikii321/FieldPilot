@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>FieldPilot · Управление фондом скважин</title>
+    <link rel="stylesheet" href="/style.css" />
+    <script defer src="/app.js"></script>
+  </head>
+  <body>
+    <aside>
+      <a class="brand" href="#overview"
+        ><span class="logo">F</span> FieldPilot</a
+      >
+      <div class="caption">ПОДДЕРЖКА РЕШЕНИЙ</div>
+      <nav id="nav"></nav>
+      <div class="aside-foot">
+        <span class="dot"></span> Учебное месторождение<br /><small
+          >30 суток · нефтяной фонд</small
+        >
+      </div>
+    </aside>
+    <main>
+      <header>
+        <div>
+          <div class="eyebrow">ПРОМЫШЛЕННОСТЬ / ФОНД СКВАЖИН</div>
+          <h1 id="title">Обзор месторождения</h1>
+        </div>
+        <span class="pill">MVP · синтетические данные</span>
+      </header>
+      <div class="controls">
+        <label
+          >Бюджет, млн ₽<input
+            id="budget"
+            type="number"
+            min="0"
+            max="100"
+            step=".1"
+            value="3.5" /></label
+        ><label
+          >Ресурс, бригадо-дни<input
+            id="crew"
+            type="number"
+            min="0"
+            max="120"
+            step="1"
+            value="12" /></label
+        ><button id="recalculate">Пересчитать портфель</button
+        ><button class="secondary" id="export">Экспорт JSON</button
+        ><span id="status" role="status"></span>
+      </div>
+      <div id="notice" role="alert"></div>
+      <section id="content" aria-live="polite">
+        <p>Загрузка расчетов…</p>
+      </section>
+      <footer>
+        FieldPilot · Сценарии и эффекты мероприятий — экспертные оценки. Решение
+        утверждает специалист.
+      </footer>
+    </main>
+    <dialog id="dialog">
+      <form id="dialogform">
+        <div class="dialog-head">
+          <h2 id="dialogtitle"></h2>
+          <button type="button" class="secondary" id="close">Закрыть</button>
+        </div>
+        <div id="dialogbody"></div>
+        <div id="dialogerror" role="alert"></div>
+        <button id="dialogsave" type="submit">Сохранить</button>
+      </form>
+    </dialog>
+  </body>
+</html>

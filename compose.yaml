@@ -1,0 +1,43 @@
+name: fieldpilot
+services:
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: fieldpilot
+      POSTGRES_USER: fieldpilot
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-fieldpilot_local_demo}
+    volumes:
+      - fieldpilot-db:/var/lib/postgresql/data
+    healthcheck:
+      test: [CMD-SHELL, "pg_isready -U fieldpilot -d fieldpilot"]
+      interval: 5s
+      timeout: 3s
+      retries: 15
+    restart: unless-stopped
+  app:
+    build: .
+    ports:
+      - "127.0.0.1:${APP_PORT:-8081}:8081"
+    environment:
+      PORT: 8081
+      DB_URL: jdbc:postgresql://db:5432/fieldpilot
+      DB_USER: fieldpilot
+      DB_PASSWORD: ${DB_PASSWORD:-fieldpilot_local_demo}
+      ML_ENABLED: ${ML_ENABLED:-true}
+      ML_CRON: ${ML_CRON:-0 0 3 * * *}
+      ML_ZONE: Europe/Moscow
+      ML_SOURCE_PATH: /app/training-data/history.csv
+    volumes:
+      - ./training-data:/app/training-data:ro
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: [CMD, curl, -fsS, http://localhost:8081/actuator/health]
+      interval: 10s
+      timeout: 5s
+      start_period: 45s
+      retries: 12
+    restart: unless-stopped
+volumes:
+  fieldpilot-db:
